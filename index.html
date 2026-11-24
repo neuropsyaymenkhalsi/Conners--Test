@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Questionnaire de Conners — Version Parents</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600&family=Source+Sans+3:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F6F2EA;--paper-deep:#EFE9DC;--ink:#2C3733;--ink-soft:#5B6660;--teal:#4F7C77;--teal-deep:#365C58;--amber:#C98A3E;--rule:#DAD2C0;--card:#FFFEFB;--danger:#A85C46;}
+*{box-sizing:border-box;}html,body{margin:0;padding:0;}
+body{background:var(--paper);color:var(--ink);font-family:'Source Sans 3',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;}
+body.ar-mode{font-family:'Cairo',sans-serif;}
+.app{max-width:760px;margin:0 auto;padding:0 20px 60px;}
+.lang-bar{display:flex;justify-content:flex-end;gap:6px;padding:12px 0 0;}
+body[dir=rtl] .lang-bar{justify-content:flex-start;}
+.lang-btn{font-family:'Source Sans 3',sans-serif;font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;border:1.5px solid var(--rule);background:transparent;color:var(--ink-soft);cursor:pointer;transition:all .15s;}
+.lang-btn.active{background:var(--teal-deep);color:#fff;border-color:var(--teal-deep);}
+.lang-btn:hover:not(.active){border-color:var(--teal);color:var(--teal);}
+.lang-btn.ar-btn{font-family:'Cairo',sans-serif;}
+header.top{padding:14px 0 18px;border-bottom:1px solid var(--rule);}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal-deep);margin:0 0 6px;}
+body.ar-mode .eyebrow{font-family:'Cairo',sans-serif;letter-spacing:0;text-transform:none;}
+h1{font-family:'Lora',serif;font-weight:600;font-size:26px;margin:0 0 4px;color:var(--ink);}
+body.ar-mode h1{font-family:'Cairo',sans-serif;font-weight:700;}
+.sub{color:var(--ink-soft);font-size:15px;margin:0;line-height:1.5;}
+.progress-wrap{margin-top:16px;}
+.progress-track{height:6px;width:100%;background:var(--paper-deep);border-radius:6px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--teal),var(--amber));width:0%;transition:width .35s ease;}
+.progress-label{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-soft);margin-top:6px;}
+body.ar-mode .progress-label{font-family:'Cairo',sans-serif;}
+.screen{display:none;}.screen.active{display:block;animation:fade .3s ease;}
+@keyframes fade{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:26px 24px;margin-top:20px;}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 20px;margin-top:4px;}
+.field-grid .full{grid-column:1/-1;}
+label{display:block;font-size:12.5px;font-weight:600;color:var(--teal-deep);margin-bottom:6px;letter-spacing:.01em;}
+body.ar-mode label{font-family:'Cairo',sans-serif;font-size:13px;}
+input[type=text],input[type=email],input[type=number]{width:100%;padding:10px 12px;border:1px solid var(--rule);border-radius:8px;background:var(--paper);font-family:'Source Sans 3',sans-serif;font-size:14.5px;color:var(--ink);}
+body.ar-mode input{font-family:'Cairo',sans-serif;}
+input:focus{outline:2px solid var(--teal);outline-offset:1px;}
+.radio-row{display:flex;gap:18px;margin-top:4px;flex-wrap:wrap;}
+.radio-row label{display:flex;align-items:center;gap:6px;font-weight:500;color:var(--ink);font-size:14px;}
+.wheel-date{position:relative;display:flex;gap:4px;height:120px;background:var(--paper);border:1px solid var(--rule);border-radius:8px;overflow:hidden;padding:0 2px;}
+.wheel-col{flex:1;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;mask-image:linear-gradient(to bottom,transparent 0,#000 40px,#000 80px,transparent 120px);-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 40px,#000 80px,transparent 120px);}
+.wheel-col::-webkit-scrollbar{display:none;}
+.wheel-col .wheel-pad{height:40px;flex-shrink:0;}
+.wheel-item{height:40px;display:flex;align-items:center;justify-content:center;scroll-snap-align:center;font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--ink-soft);user-select:none;}
+body.ar-mode .wheel-item{font-family:'Cairo',sans-serif;}
+.wheel-item.selected{color:var(--ink);font-weight:700;font-size:16px;}
+.wheel-highlight{position:absolute;left:2px;right:2px;top:50%;height:40px;transform:translateY(-50%);border-top:1.5px solid var(--teal);border-bottom:1.5px solid var(--teal);background:rgba(79,124,119,.07);border-radius:6px;pointer-events:none;}
+.wheel-readout{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--teal-deep);margin-top:6px;}
+body.ar-mode .wheel-readout{font-family:'Cairo',sans-serif;}
+.legend{margin-top:22px;padding:16px 18px;background:var(--paper-deep);border-radius:10px;font-size:13.5px;color:var(--ink-soft);}
+.legend strong{color:var(--ink);}
+.scale-key{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+.scale-key span{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--card);border:1px solid var(--rule);border-radius:6px;padding:4px 8px;}
+body.ar-mode .scale-key span{font-family:'Cairo',sans-serif;}
+.q-card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:20px 22px;margin:16px 0;}
+.q-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--teal-deep);margin-bottom:6px;}
+body.ar-mode .q-num{font-family:'Cairo',sans-serif;}
+.q-text{font-size:15.5px;line-height:1.55;margin:0 0 16px;color:var(--ink);}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.opt{position:relative;}
+.opt input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer;}
+.opt .pill{display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px 9px;border:1.5px solid var(--rule);border-radius:10px;background:var(--paper);transition:all .15s;text-align:center;}
+.opt .pill .n{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;color:var(--ink);}
+.opt .pill .t{font-size:10.5px;color:var(--ink-soft);}
+body.ar-mode .opt .pill .t{font-family:'Cairo',sans-serif;font-size:11px;}
+.opt input:checked+.pill{border-color:var(--teal);background:var(--teal);}
+.opt input:checked+.pill .n,.opt input:checked+.pill .t{color:#fff;}
+.opt:hover .pill{border-color:var(--teal-deep);}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:12px;}
+button{font-family:'Source Sans 3',sans-serif;font-weight:600;font-size:14.5px;padding:11px 22px;border-radius:9px;border:1.5px solid var(--teal-deep);background:var(--teal-deep);color:#fff;cursor:pointer;transition:transform .1s ease;}
+body.ar-mode button{font-family:'Cairo',sans-serif;}
+button.ghost{background:transparent;color:var(--teal-deep);}
+button:hover{transform:translateY(-1px);}
+.hint{font-size:12.5px;color:var(--ink-soft);margin-top:8px;min-height:16px;}
+.hint.warn{color:var(--danger);font-weight:600;}
+body.ar-mode .hint{font-family:'Cairo',sans-serif;}
+.score-hero{display:flex;align-items:flex-end;gap:14px;margin:22px 0 4px;}
+.score-num{font-family:'Lora',serif;font-size:54px;font-weight:600;color:var(--teal-deep);line-height:1;}
+.score-den{font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--ink-soft);padding-bottom:6px;}
+body.ar-mode .score-den{font-family:'Cairo',sans-serif;}
+table.summary{width:100%;border-collapse:collapse;margin-top:18px;font-size:13.5px;}
+table.summary th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--rule);padding:6px;}
+body[dir=rtl] table.summary th{text-align:right;}
+body.ar-mode table.summary th{font-family:'Cairo',sans-serif;letter-spacing:0;text-transform:none;}
+table.summary td{padding:7px 6px;border-bottom:1px solid var(--rule);vertical-align:top;}
+table.summary td.score{font-family:'JetBrains Mono',monospace;font-weight:700;text-align:center;width:36px;}
+tr.lvl-3 td.score{color:var(--danger);}tr.lvl-2 td.score{color:var(--amber);}
+.disclaimer{margin-top:22px;padding:14px 16px;border-left:3px solid var(--amber);background:var(--paper-deep);font-size:13px;color:var(--ink-soft);border-radius:0 8px 8px 0;}
+body[dir=rtl] .disclaimer{border-left:none;border-right:3px solid var(--amber);border-radius:8px 0 0 8px;}
+.actions-final{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap;}
+@media(max-width:560px){.field-grid{grid-template-columns:1fr;}.score-num{font-size:40px;}h1{font-size:21px;}.opt .pill .t{font-size:9px;}.opt .pill{padding:8px 3px;}}
+@media print{.lang-bar,.nav-row,.progress-wrap,.actions-final,button{display:none!important;}.screen{display:none!important;}#screen-results{display:block!important;}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="lang-bar">
+    <button class="lang-btn ar-btn" onclick="setLang('ar')">العربية</button>
+    <button class="lang-btn" onclick="setLang('en')">English</button>
+    <button class="lang-btn active" onclick="setLang('fr')">Français</button>
+  </div>
+  <header class="top">
+    <p class="eyebrow" id="hdr-eyebrow"></p>
+    <h1 id="hdr-title"></h1>
+    <p class="sub" id="hdr-sub"></p>
+    <div class="progress-wrap">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-label"><span id="progressText"></span><span id="progressCount"></span></div>
+    </div>
+  </header>
+
+  <section class="screen active" id="screen-0">
+    <div class="card">
+      <div class="field-grid">
+        <div class="full"><label id="lbl-name"></label><input type="text" id="childName"></div>
+        <div>
+          <label id="lbl-sex"></label>
+          <div class="radio-row">
+            <label><input type="radio" name="sexe" value="M"> <span id="lbl-male"></span></label>
+            <label><input type="radio" name="sexe" value="F"> <span id="lbl-female"></span></label>
+          </div>
+        </div>
+        <div><label id="lbl-grade"></label><input type="text" id="grade"></div>
+        <div class="full">
+          <label id="lbl-birthdate"></label>
+          <div class="wheel-date" id="wheel-birthdate">
+            <div class="wheel-col" data-type="day"></div>
+            <div class="wheel-col" data-type="month"></div>
+            <div class="wheel-col" data-type="year"></div>
+            <div class="wheel-highlight"></div>
+          </div>
+          <div class="wheel-readout" id="readout-birthdate"></div>
+        </div>
+        <div><label id="lbl-age"></label><input type="number" id="age" min="0" max="18"></div>
+        <div><label id="lbl-compiler"></label><input type="text" id="compiler"></div>
+        <div class="full">
+          <label id="lbl-date"></label>
+          <div class="wheel-date" id="wheel-compileDate">
+            <div class="wheel-col" data-type="day"></div>
+            <div class="wheel-col" data-type="month"></div>
+            <div class="wheel-col" data-type="year"></div>
+            <div class="wheel-highlight"></div>
+          </div>
+          <div class="wheel-readout" id="readout-compileDate"></div>
+        </div>
+        <div class="full"><label id="lbl-email"></label><input type="email" id="practitionerEmail"></div>
+      </div>
+      <div class="legend" id="legend-box"></div>
+    </div>
+    <div class="nav-row"><span></span><button id="btn-start" onclick="goTo(1)"></button></div>
+  </section>
+
+  <div id="questionScreens"></div>
+
+  <section class="screen" id="screen-results">
+    <div class="card">
+      <p class="eyebrow" id="res-eyebrow"></p>
+      <h1 style="font-size:22px;" id="res-title"></h1>
+      <p class="sub" id="resultSubject"></p>
+      <div class="score-hero">
+        <div class="score-num" id="totalScore">0</div>
+        <div class="score-den" id="res-den"></div>
+      </div>
+      <p class="sub" style="margin-top:2px;" id="scoreNote"></p>
+      <table class="summary">
+        <thead><tr><th style="width:36px;" id="th-num"></th><th id="th-item"></th><th id="th-score"></th></tr></thead>
+        <tbody id="resultsBody"></tbody>
+      </table>
+      <div class="disclaimer" id="res-disclaimer"></div>
+      <div class="actions-final">
+        <button id="btn-send" onclick="sendToPractitioner()"></button>
+        <button class="ghost" id="btn-restart" onclick="resetAll()"></button>
+      </div>
+      <p class="hint" id="sendHint"></p>
+    </div>
+  </section>
+</div>
+
+<script>
+var lang='fr';
+var answers={};
+var wheelHandles={};
+var PER_SCREEN=5;
+var TOTAL_ITEMS=80;
+var totalScreens=Math.ceil(TOTAL_ITEMS/PER_SCREEN);
+var ITEM_H=40;
+
+var T={
+fr:{
+  eyebrow:'Conners — Version révisée (L), 1997',
+  title:'Questionnaire d\'évaluation du comportement',
+  sub:'À remplir par un parent ou tuteur, en décrivant le comportement habituel de l\'enfant au cours du dernier mois.',
+  progInfo:'Informations sur l\'enfant',
+  progSection:function(s,t){return 'Section '+s+' / '+t;},
+  progResult:'Résultat',
+  progCount:function(a,t){return a+' / '+t+' énoncés';},
+  lblName:'Nom de l\'enfant',lblSex:'Sexe',lblMale:'Masculin',lblFemale:'Féminin',
+  lblGrade:'Degré académique',lblBirthdate:'Date de naissance',lblAge:'Âge (années)',
+  lblCompiler:'Compilée par',lblDate:'Date',
+  lblEmail:'Email du praticien * (obligatoire pour l\'envoi du rapport)',
+  phName:'Prénom et nom',phGrade:'ex. 1ère année',phAge:'en années',
+  phCompiler:'Nom du parent / tuteur',phEmail:'ex. praticien@cabinet.tn',
+  legendTitle:'Comment répondre :',
+  legendText:'Pour chacun des 80 énoncés suivants, choisissez la cote qui décrit le mieux le comportement de votre enfant au cours du <strong>dernier mois</strong>. Il n\'y a pas de bonne ou de mauvaise réponse.',
+  scale0:'0 — Jamais',scale1:'1 — Légère',scale2:'2 — Moyenne',scale3:'3 — Forte',
+  pill0:'Jamais',pill1:'Légère',pill2:'Moyenne',pill3:'Forte',
+  btnStart:'Commencer le questionnaire →',btnPrev:'← Précédent',btnNext:'Suivant →',btnFinish:'Voir le résultat →',
+  btnSend:'Envoyer le rapport au praticien',btnRestart:'Recommencer',
+  item:function(n,t){return 'Énoncé '+n+' / '+t;},
+  resEyebrow:'Résultat',resTitle:'Sommaire des réponses',resDen:'/ 240 points',
+  thNum:'N°',thItem:'Énoncé',thScore:'Cote',
+  disclaimer:'Cet outil est basé sur le Questionnaire de Conners (version révisée parents, L, 1997). Le score présenté est un <strong>total brut</strong> non converti en notes T normées. Ce questionnaire ne constitue pas un diagnostic.',
+  hintNoEmail:'L\'email du praticien est obligatoire. Revenez à l\'étape 1 pour le renseigner.',
+  hintBadEmail:'Cette adresse email ne semble pas valide. Vérifiez-la à l\'étape 1.',
+  hintSending:'Votre application email va s\'ouvrir avec le rapport. Vérifiez puis appuyez sur Envoyer.',
+  hintComplete:'Veuillez répondre à chaque énoncé avant de continuer.',
+  months:['Janv.','Févr.','Mars','Avr.','Mai','Juin','Juil.','Août','Sept.','Oct.','Nov.','Déc.'],
+  scoreNote:function(n){return n+' énoncé(s) coté(s) "moyenne" ou "forte" — score total brut, non normé.';},
+  rChild:'Enfant',rSex:'Sexe',rDob:'Date de naissance',rAge:'Âge',rGrade:'Degré académique',rBy:'Rempli par',rDate:'Date',
+  rTotal:function(s,p){return 'Score total brut : '+s+' / 240 ('+p+'% du maximum)';},
+  rHigh:function(n){return n+' énoncé(s) coté(s) 2 ou 3';},rMild:function(n){return n+' énoncé(s) coté(s) 1';},
+  rInterpTitle:'CADRE D\'INTERPRÉTATION',
+  rInterpText:'L\'échelle de Conners (CPRS-R:L) explore : problèmes cognitifs/inattention, opposition, hyperactivité-impulsivité, anxiété-retrait, perfectionnisme, problèmes sociaux et plaintes psychosomatiques (Conners et al., 1998).\n\nLes scores sont normalement convertis en notes T (moy 50, ET 10) :\n  T < 60  : dans la norme\n  T 60-64 : légèrement élevé\n  T 65-69 : cliniquement significatif\n  T >= 70 : très élevé\n\nIMPORTANT : le score ci-dessus est un TOTAL BRUT, non normé par âge/sexe.',
+  rDetailTitle:function(n){return 'ÉNONCÉS COTÉS 2 OU 3 ('+n+' au total)';},
+  rNone:'Aucun énoncé coté 2 ou 3.',
+  rLimits:'Ce rapport est généré automatiquement et ne constitue pas un diagnostic ni une évaluation clinique. Seul un professionnel qualifié peut interpréter ces résultats.'
+},
+en:{
+  eyebrow:'Conners — Revised Version (L), 1997',
+  title:'Behavior Assessment Questionnaire',
+  sub:'To be completed by a parent or guardian describing the child\'s typical behavior over the past month.',
+  progInfo:'Child Information',
+  progSection:function(s,t){return 'Section '+s+' / '+t;},
+  progResult:'Results',
+  progCount:function(a,t){return a+' / '+t+' items';},
+  lblName:'Child\'s Name',lblSex:'Sex',lblMale:'Male',lblFemale:'Female',
+  lblGrade:'Academic Level',lblBirthdate:'Date of Birth',lblAge:'Age (years)',
+  lblCompiler:'Completed by',lblDate:'Date',
+  lblEmail:'Practitioner\'s Email * (required to send report)',
+  phName:'First and last name',phGrade:'e.g. Grade 1',phAge:'in years',
+  phCompiler:'Parent / guardian name',phEmail:'e.g. doctor@clinic.com',
+  legendTitle:'How to respond:',
+  legendText:'For each of the 80 items below, choose the rating that best describes your child\'s behavior over the <strong>past month</strong>. There are no right or wrong answers.',
+  scale0:'0 — Never',scale1:'1 — Slightly',scale2:'2 — Moderate',scale3:'3 — Very much',
+  pill0:'Never',pill1:'Slightly',pill2:'Moderate',pill3:'V. much',
+  btnStart:'Start Questionnaire →',btnPrev:'← Previous',btnNext:'Next →',btnFinish:'View Results →',
+  btnSend:'Send Report to Practitioner',btnRestart:'Start Over',
+  item:function(n,t){return 'Item '+n+' / '+t;},
+  resEyebrow:'Results',resTitle:'Response Summary',resDen:'/ 240 points',
+  thNum:'#',thItem:'Item',thScore:'Rating',
+  disclaimer:'This tool is based on the Conners\' Parent Rating Scale-Revised (CPRS-R:L, 1997). The score shown is a <strong>raw total</strong> not converted to age/sex-normed T-scores. This questionnaire does not constitute a diagnosis.',
+  hintNoEmail:'Practitioner email is required. Go back to Step 1 to enter it.',
+  hintBadEmail:'This email address does not appear valid. Please check it in Step 1.',
+  hintSending:'Your email app will open with the report pre-filled. Review and press Send.',
+  hintComplete:'Please answer all items before continuing.',
+  months:['Jan.','Feb.','Mar.','Apr.','May','Jun.','Jul.','Aug.','Sep.','Oct.','Nov.','Dec.'],
+  scoreNote:function(n){return n+' item(s) rated "moderate" or "very much" — raw total, not normed.';},
+  rChild:'Child',rSex:'Sex',rDob:'Date of birth',rAge:'Age',rGrade:'Academic level',rBy:'Completed by',rDate:'Date',
+  rTotal:function(s,p){return 'Raw total: '+s+' / 240 ('+p+'% of maximum)';},
+  rHigh:function(n){return n+' item(s) rated 2 or 3';},rMild:function(n){return n+' item(s) rated 1';},
+  rInterpTitle:'INTERPRETATION FRAMEWORK',
+  rInterpText:'The CPRS-R:L assesses: cognitive/inattention problems, oppositionality, hyperactivity-impulsivity, anxious-shy, perfectionism, social problems, psychosomatic complaints (Conners et al., 1998).\n\nT-score conventions:\n  T < 60  : within normal limits\n  T 60-64 : borderline\n  T 65-69 : clinically significant\n  T >= 70 : very elevated\n\nIMPORTANT: Score above is a RAW TOTAL, not age/sex-normed.',
+  rDetailTitle:function(n){return 'ITEMS RATED 2 OR 3 ('+n+' total)';},
+  rNone:'No items rated 2 or 3.',
+  rLimits:'This report is automatically generated and does not constitute a diagnosis. Only a qualified professional can interpret these results.'
+},
+ar:{
+  eyebrow:'مقياس كونرز — النسخة المُعدَّلة (L)، 1997',
+  title:'استبيان تقييم السلوك',
+  sub:'يُكمله أحد الوالدين أو ولي الأمر، واصفاً السلوك المعتاد للطفل خلال الشهر الماضي.',
+  progInfo:'معلومات الطفل',
+  progSection:function(s,t){return 'القسم '+s+' / '+t;},
+  progResult:'النتائج',
+  progCount:function(a,t){return a+' / '+t+' بنود';},
+  lblName:'اسم الطفل',lblSex:'الجنس',lblMale:'ذكر',lblFemale:'أنثى',
+  lblGrade:'المستوى الدراسي',lblBirthdate:'تاريخ الميلاد',lblAge:'العمر (بالسنوات)',
+  lblCompiler:'أُعبِّئ من قِبل',lblDate:'التاريخ',
+  lblEmail:'بريد الأخصائي * (مطلوب لإرسال التقرير)',
+  phName:'الاسم الكامل',phGrade:'مثال: السنة الأولى',phAge:'بالسنوات',
+  phCompiler:'اسم الوالد / ولي الأمر',phEmail:'مثال: doctor@clinic.tn',
+  legendTitle:'كيفية الإجابة:',
+  legendText:'لكل بند من البنود الـ80 التالية، اختر الدرجة التي تصف سلوك طفلك خلال <strong>الشهر الماضي</strong>. لا توجد إجابات صحيحة أو خاطئة.',
+  scale0:'0 — أبداً',scale1:'1 — نادراً',scale2:'2 — أحياناً',scale3:'3 — كثيراً',
+  pill0:'أبداً',pill1:'نادراً',pill2:'أحياناً',pill3:'كثيراً',
+  btnStart:'ابدأ الاستبيان ←',btnPrev:'السابق →',btnNext:'← التالي',btnFinish:'← عرض النتائج',
+  btnSend:'إرسال التقرير إلى الأخصائي',btnRestart:'إعادة البدء',
+  item:function(n,t){return 'البند '+n+' / '+t;},
+  resEyebrow:'النتائج',resTitle:'ملخص الإجابات',resDen:'/ 240 نقطة',
+  thNum:'رقم',thItem:'البند',thScore:'الدرجة',
+  disclaimer:'هذه الأداة مبنية على مقياس كونرز للوالدين المُعدَّل (CPRS-R:L، 1997). الدرجة الظاهرة هي <strong>مجموع خام</strong> غير محوَّل إلى درجات T معيارية. هذا الاستبيان لا يُعدّ تشخيصاً.',
+  hintNoEmail:'البريد الإلكتروني للأخصائي مطلوب. ارجع إلى الخطوة الأولى لإدخاله.',
+  hintBadEmail:'يبدو أن هذا البريد الإلكتروني غير صالح. يرجى التحقق منه.',
+  hintSending:'سيفتح تطبيق البريد الإلكتروني مع التقرير المُعبَّأ. راجعه ثم اضغط إرسال.',
+  hintComplete:'يرجى الإجابة على جميع البنود قبل المتابعة.',
+  months:['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+  scoreNote:function(n){return n+' بند/بنود مُقيَّمة بـ"أحياناً" أو "كثيراً" — مجموع خام غير معياري.';},
+  rChild:'الطفل',rSex:'الجنس',rDob:'تاريخ الميلاد',rAge:'العمر',rGrade:'المستوى الدراسي',rBy:'أُعبِّئ من قِبل',rDate:'التاريخ',
+  rTotal:function(s,p){return 'المجموع الخام : '+s+' / 240 ('+p+'% من الحد الأقصى)';},
+  rHigh:function(n){return n+' بند/بنود مُقيَّمة بـ2 أو 3';},rMild:function(n){return n+' بند/بنود مُقيَّمة بـ1';},
+  rInterpTitle:'إطار التفسير',
+  rInterpText:'يقيس مقياس كونرز (CPRS-R:L) : مشكلات الانتباه، المعارضة، فرط الحركة، القلق، الكمالية، المشكلات الاجتماعية، الشكاوى الجسدية (كونرز وآخرون، 1998).\n\nدرجات T المعيارية :\n  T < 60  : ضمن الحدود الطبيعية\n  T 60-64 : حدّي\n  T 65-69 : ذو دلالة سريرية\n  T >= 70 : مرتفع جداً\n\nتنبيه: الدرجة أعلاه هي مجموع خام غير معياري.',
+  rDetailTitle:function(n){return 'البنود المُقيَّمة بـ2 أو 3 (الإجمالي: '+n+')';},
+  rNone:'لا توجد بنود مُقيَّمة بـ2 أو 3.',
+  rLimits:'هذا التقرير مُولَّد تلقائياً ولا يُعدّ تشخيصاً. يستطيع فقط متخصص مؤهل تفسير هذه النتائج.'
+}};
+
+var ITEMS={
+fr:["Est colérique et rancunier","A des difficultés à faire ou compléter ses devoirs","Bouge tout le temps, comme un appareil motorisé","Est timide, vite effrayé","Se fait très rigide dans ses exigences","N'a pas d'ami(e)s","Souffre de maux d'estomac","Se querelle","Recherche la fuite, hésite, ou n'arrive pas à s'engager dans des tâches qui demandent un effort mental soutenu (telles le travail scolaire ou les devoirs à la maison)","A de la difficulté à se concentrer dans ses travaux, ses jeux","Argumente avec les adultes","Ne réussit pas à terminer ses tâches","Devient difficile à contrôler dans les centres d'achat ou les épiceries","A peur des gens","Ne cesse de vérifier ses affaires","Perd rapidement ses camarades","Souffre de divers malaises, douleurs","Est turbulent ou très actif","A de la misère à se concentrer à l'école","Ne semble ne pas écouter ce qu'on lui dit","Perd le contrôle","Doit avoir une surveillance continue pour accomplir ses tâches","Se promène à la course ou grimpe partout dans les endroits interdits","Craint les nouvelles situations","Devient tatillon au niveau propreté","Ne sait pas comment se faire des ami(e)s","Commence à présenter des malaises, douleurs ou des maux d'estomac avant de partir pour l'école","Devient facile à exciter et réagit vite","Ne suit pas toutes les consignes et ne réussit pas à terminer ses travaux scolaires, corvées ou tâches (sans relation avec la conduite d'opposition ou la compréhension des directives)","Organise mal ses travaux et ses activités","Est irritable","Ne cesse de se tortiller","Craint de rester seul","Doit faire toujours les choses de la même manière","Ne reçoit pas d'invitations d'aller chez les camarades","Souffre de maux de tête","N'arrive pas à terminer ce qu'il commence","Manque de concentration, ou se distrait facilement","Parle trop","Défie volontiers ou refuse le respect de la consigne de l'adulte","Ne se préoccupe pas des détails, ou fait des erreurs d'attention dans ses devoirs, travaux ou autres activités","Paraît incapable d'attendre en file ou encore son tour dans les jeux, activités de groupe","Présente de nombreuses peurs","Se doit d'accomplir certains rituels","Se distrait vite, ou ne reste pas longtemps sur une tâche","Se plaint de maladies même quand il n'a rien","A des explosions de colère","Se distrait facilement même quand il reçoit une consigne précise","Interrompt ou s'ingère dans les affaires des autres (s'impose dans la conversation ou les jeux)","Oublie facilement dans les activités du quotidien","Ne peut saisir les mathématiques","Se met à courir entre deux bouchées de nourriture","A peur de la noirceur, des animaux ou des insectes","Se fixe des objectifs très élevés","Bouge des mains, des pieds, ou se tortille sur la chaise","Ne se concentre pas longtemps","Est susceptible ou facilement ennuyé par les autres","Néglige son écriture","N'arrive pas à poursuivre un jeu agréable ou tranquille","Reste lointain, en retrait des autres","Blâme les autres, de ses fautes, ou ses comportements inadéquats","Ne tient pas en place","Est malpropre ou mal organisé à la maison ou l'école","S'énerve si les autres le dérangent ses affaires","Colle aux parents ou autres adultes","Dérange les autres enfants","Fait exprès pour ennuyer les gens","Exige une réponse immédiate aux demandes, sinon il se frustre","Ne porte attention qu'à ce qui l'intéresse","Se montre mesquin, rancunier","Perd le nécessaire à ses travaux ou activités (ex. : devoirs scolaires, crayons, livres, outils, jouets)","Se sent inférieur aux autres","Semble fatigué ou ralenti tout le temps","Est faible dans l'épellation des mots","Pleure souvent sans raison","Quitte son siège en classe, ou ailleurs quand il doit rester assis","Change d'humeur de manière subite et radicale","Devient facilement exaspéré durant un effort","Se distrait facilement par les stimuli externes","Répond trop vite, avant même la fin de la question"],
+en:["Is spiteful or vindictive","Has difficulty completing homework","Is always on the go or acts as if driven by a motor","Is fearful, shy, or timid","Is rigid and unbending in demands","Has no friends","Has stomach aches","Is quarrelsome","Avoids, dislikes, or is reluctant to engage in tasks requiring sustained mental effort (e.g., schoolwork or homework)","Has difficulty concentrating on tasks or in play","Argues with adults","Does not finish things started","Becomes unmanageable in shopping centers or supermarkets","Is afraid of people","Keeps checking things repeatedly","Loses friends quickly","Has various aches, pains, or discomforts","Is excitable or restless","Has difficulty concentrating at school","Doesn't seem to listen to what is being said","Loses temper","Needs constant supervision to complete tasks","Runs around or climbs excessively in inappropriate situations","Is afraid of new situations","Is overly meticulous about cleanliness","Doesn't know how to make friends","Begins to complain of stomach aches before going to school","Is easily excited and reacts quickly","Fails to follow through on instructions and fails to finish schoolwork or tasks (not due to defiance)","Has poor organization of work and activities","Is irritable","Fidgets and squirms constantly","Is afraid of being alone","Must do things in the same way all the time","Is not invited to other children's homes","Has headaches","Does not finish what is started","Has a short attention span or is easily distracted","Talks too much","Deliberately defies or refuses to comply with adults' requests","Does not pay close attention to details or makes careless mistakes in schoolwork","Seems unable to wait in line or take turns in games or groups","Has many fears","Must perform certain rituals","Is easily distracted or doesn't stay with one activity for long","Complains of illness when there is nothing wrong","Has explosive outbursts of anger","Is easily distracted even when given specific instructions","Interrupts or intrudes on others (e.g., butts into conversations or games)","Is forgetful in daily activities","Cannot grasp arithmetic","Runs around between mouthfuls of food","Is afraid of the dark, animals, or insects","Sets very high goals for self","Fidgets with hands or feet or squirms in seat","Does not concentrate for long periods","Is touchy or easily annoyed by others","Neglects handwriting","Cannot play quietly or engage in leisure activities quietly","Remains distant or withdrawn from others","Blames others for own mistakes or misbehavior","Cannot sit still","Is messy or disorganized at home or at school","Gets upset if others interfere with their belongings","Clings to parents or other adults","Disturbs or upsets other children","Deliberately annoys people","Demands must be met immediately; becomes frustrated otherwise","Only pays attention to what interests them","Is spiteful and vindictive","Loses things necessary for tasks or activities","Feels inferior to others","Seems tired or sluggish all the time","Is weak in spelling","Cries frequently for no apparent reason","Leaves seat when expected to remain seated","Has sudden and dramatic mood changes","Becomes easily frustrated during an effort","Is easily distracted by extraneous stimuli","Blurts out answers before questions have been completed"],
+ar:["غاضب وحقود","يجد صعوبة في إنجاز الواجبات المنزلية","دائم الحركة كأنه مدفوع بمحرك","خجول أو يخاف بسهولة","متصلب جداً في مطالبه","لا تربطه صداقات","يعاني من آلام في المعدة","يتشاجر مع الآخرين","يتجنب أو يتردد في الانخراط في المهام التي تستلزم جهداً ذهنياً مستمراً (كالعمل المدرسي أو الواجبات المنزلية)","يجد صعوبة في التركيز في أعماله وألعابه","يجادل الكبار","لا ينهي مهامه","يصعب السيطرة عليه في المراكز التجارية أو محلات البقالة","يخاف من الناس","لا يتوقف عن التحقق من أشيائه","يفقد أصدقاءه بسرعة","يعاني من آلام ومشاعر إزعاج متنوعة","متهيج أو نشيط جداً","يجد صعوبة في التركيز في المدرسة","لا يبدو أنه يسمع ما يُقال له","يفقد السيطرة على نفسه","يحتاج إلى إشراف مستمر لإنجاز مهامه","يركض أو يتسلق في أماكن غير مناسبة","يخاف من المواقف الجديدة","يصبح دقيقاً مفرطاً في موضوع النظافة","لا يعرف كيف يكوّن صداقات","يبدأ في الشكوى من آلام جسدية قبل الذهاب إلى المدرسة","ينفعل بسهولة ويتفاعل بسرعة","لا يتبع التعليمات ولا يُنهي مهامه المدرسية (دون علاقة بالمعارضة)","سيئ التنظيم في أعماله وأنشطته","سريع الاستثارة والتهيج","لا يتوقف عن الاضطراب والتلوّي","يخاف من البقاء وحيداً","يجب أن يفعل الأشياء بنفس الطريقة دائماً","لا يتلقى دعوات للذهاب إلى منازل الأصدقاء","يعاني من صداع","لا يُنهي ما يبدأه","يفتقر إلى التركيز، أو ينشغل بسهولة","يتحدث كثيراً","يعترض عن قصد أو يرفض الامتثال لتعليمات الكبار","لا ينتبه للتفاصيل أو يرتكب أخطاء إهمال في واجباته","يبدو عاجزاً عن انتظار دوره في الألعاب والأنشطة الجماعية","لديه مخاوف كثيرة","يجب عليه أداء طقوس معينة","ينشغل بسرعة أو لا يبقى طويلاً على نشاط واحد","يشكو من المرض حتى عندما لا يكون هناك شيء","لديه نوبات انفجارية من الغضب","ينشغل بسهولة حتى عند تلقّيه تعليمات محددة","يقاطع الآخرين أو يتدخل في محادثاتهم أو ألعابهم","كثير النسيان في الأنشطة اليومية","لا يستطيع استيعاب مادة الرياضيات","يركض أثناء تناول الطعام","يخاف من الظلام أو الحيوانات أو الحشرات","يضع أهدافاً مرتفعة جداً لنفسه","يحرك يديه أو قدميه أو يتلوّى على كرسيه","لا يستطيع التركيز لفترة طويلة","حساس أو ينزعج بسهولة من تصرفات الآخرين","يهمل خطّه","لا يستطيع اللعب أو ممارسة الأنشطة الترفيهية بهدوء","يبقى بعيداً ومنعزلاً عن الآخرين","يلوم الآخرين على أخطائه أو تصرفاته","لا يستطيع الجلوس بهدوء","غير مرتب أو سيئ التنظيم في المنزل أو المدرسة","ينزعج إذا تعرضت أشياؤه للمس","يتعلق بوالديه أو بالكبار","يزعج الأطفال الآخرين","يزعج الناس عن قصد","يطالب بتلبية طلباته فوراً وإلا يصاب بالإحباط","لا ينتبه إلا لما يثير اهتمامه","يُظهر الحقد والضغينة","يفقد الأشياء الضرورية لمهامه أو أنشطته","يشعر بأنه أقل شأناً من الآخرين","يبدو متعباً أو بطيئاً طوال الوقت","ضعيف في الإملاء","يبكي كثيراً دون سبب واضح","يغادر مقعده في الفصل أو في أماكن يُفترض فيها الجلوس","تتبدل مزاجيته بشكل مفاجئ وجذري","ينزعج بسهولة أثناء بذل الجهد","ينشغل بسهولة بالمحفزات الخارجية","يجيب بسرعة كبيرة قبل اكتمال السؤال"]
+};
+
+function setLang(l){
+  lang=l;
+  document.documentElement.lang=l;
+  var isAr=(l==='ar');
+  document.documentElement.dir=isAr?'rtl':'ltr';
+  document.body.classList.toggle('ar-mode',isAr);
+  document.querySelectorAll('.lang-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelector('.lang-btn[onclick="setLang(\''+l+'\')"]').classList.add('active');
+  renderStaticText();
+  rebuildWheelMonths();
+  buildScreens();
+  updateProgress();
+}
+
+function setText(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
+function setHTML(id,v){var el=document.getElementById(id);if(el)el.innerHTML=v;}
+function setAttr(id,attr,v){var el=document.getElementById(id);if(el)el.setAttribute(attr,v);}
+
+function renderStaticText(){
+  var t=T[lang];
+  setText('hdr-eyebrow',t.eyebrow);setText('hdr-title',t.title);setText('hdr-sub',t.sub);
+  setText('lbl-name',t.lblName);setText('lbl-sex',t.lblSex);setText('lbl-male',t.lblMale);setText('lbl-female',t.lblFemale);
+  setText('lbl-grade',t.lblGrade);setText('lbl-birthdate',t.lblBirthdate);setText('lbl-age',t.lblAge);
+  setText('lbl-compiler',t.lblCompiler);setText('lbl-date',t.lblDate);setText('lbl-email',t.lblEmail);
+  setAttr('childName','placeholder',t.phName);setAttr('grade','placeholder',t.phGrade);
+  setAttr('age','placeholder',t.phAge);setAttr('compiler','placeholder',t.phCompiler);
+  setAttr('practitionerEmail','placeholder',t.phEmail);
+  setHTML('legend-box','<strong>'+t.legendTitle+'</strong> '+t.legendText+'<div class="scale-key"><span>'+t.scale0+'</span><span>'+t.scale1+'</span><span>'+t.scale2+'</span><span>'+t.scale3+'</span></div>');
+  setText('btn-start',t.btnStart);
+  setText('res-eyebrow',t.resEyebrow);setText('res-title',t.resTitle);setText('res-den',t.resDen);
+  setHTML('res-disclaimer',t.disclaimer);
+  setText('btn-send',t.btnSend);setText('btn-restart',t.btnRestart);
+  setText('th-num',t.thNum);setText('th-item',t.thItem);setText('th-score',t.thScore);
+}
+
+function daysInMonth(m,y){return new Date(y,m,0).getDate();}
+function pad(n){return String(n).padStart(2,'0');}
+
+function buildWheelColumn(colEl,list,selectedIdx,onSettle){
+  colEl.innerHTML='<div class="wheel-pad"></div>'+list.map(function(it){return '<div class="wheel-item">'+it.label+'</div>';}).join('')+'<div class="wheel-pad"></div>';
+  function applyStyle(idx){colEl.querySelectorAll('.wheel-item').forEach(function(el,i){el.classList.toggle('selected',i===idx);});}
+  function settle(idx,smooth){
+    idx=Math.max(0,Math.min(list.length-1,idx));
+    colEl.scrollTo({top:idx*ITEM_H,behavior:smooth?'smooth':'auto'});
+    applyStyle(idx);onSettle(list[idx].value,idx);
+  }
+  var timer;
+  colEl.addEventListener('scroll',function(){
+    clearTimeout(timer);
+    var idx=Math.round(colEl.scrollTop/ITEM_H);
+    applyStyle(Math.max(0,Math.min(list.length-1,idx)));
+    timer=setTimeout(function(){settle(idx,true);},110);
+  });
+  settle(selectedIdx,false);
+  return {settle:settle,list:list};
+}
+
+function makeList(vals,fmt){return vals.map(function(v){return {value:v,label:fmt(v)};});}
+
+function initWheelDate(rootId,readoutId,init){
+  var root=document.getElementById(rootId);if(!root)return;
+  var dayCol=root.querySelector('[data-type=day]');
+  var monthCol=root.querySelector('[data-type=month]');
+  var yearCol=root.querySelector('[data-type=year]');
+  var state={day:init.day,month:init.month,year:init.year};
+  var months=T[lang].months;
+  var monthList=makeList([1,2,3,4,5,6,7,8,9,10,11,12],function(m){return months[m-1];});
+  var yearList=makeList(init.years,function(y){return String(y);});
+  var dayHandle,monthHandle,yearHandle;
+
+  function updateReadout(){var el=document.getElementById(readoutId);if(el)el.textContent=pad(state.day)+' '+T[lang].months[state.month-1]+' '+state.year;}
+  function rebuildDays(keepDay){
+    var max=daysInMonth(state.month,state.year);
+    var dList=makeList(Array.from({length:max},function(_,i){return i+1;}),function(d){return pad(d);});
+    state.day=Math.min(keepDay,max);
+    dayHandle=buildWheelColumn(dayCol,dList,state.day-1,function(val){state.day=val;updateReadout();});
+  }
+  monthHandle=buildWheelColumn(monthCol,monthList,init.month-1,function(val){state.month=val;rebuildDays(state.day);updateReadout();});
+  yearHandle=buildWheelColumn(yearCol,yearList,init.years.indexOf(init.year),function(val){state.year=val;rebuildDays(state.day);updateReadout();});
+  rebuildDays(init.day);updateReadout();
+
+  wheelHandles[rootId]={
+    state:state,
+    reset:function(d){state.day=d.day;state.month=d.month;state.year=d.year;monthHandle.settle(d.month-1,false);yearHandle.settle(init.years.indexOf(d.year),false);rebuildDays(d.day);updateReadout();},
+    rebuildMonths:function(){
+      var ml=makeList([1,2,3,4,5,6,7,8,9,10,11,12],function(m){return T[lang].months[m-1];});
+      monthHandle=buildWheelColumn(monthCol,ml,state.month-1,function(val){state.month=val;rebuildDays(state.day);updateReadout();});
+      updateReadout();
+    }
+  };
+}
+
+function rebuildWheelMonths(){
+  if(wheelHandles['wheel-birthdate'])wheelHandles['wheel-birthdate'].rebuildMonths();
+  if(wheelHandles['wheel-compileDate'])wheelHandles['wheel-compileDate'].rebuildMonths();
+}
+
+function getWheelDisplay(rootId){
+  var h=wheelHandles[rootId];if(!h)return '';
+  var s=h.state;return pad(s.day)+'/'+pad(s.month)+'/'+s.year;
+}
+
+function buildScreens(){
+  var wrap=document.getElementById('questionScreens');
+  var t=T[lang];var items=ITEMS[lang];var html='';
+  for(var s=0;s<totalScreens;s++){
+    var start=s*PER_SCREEN;var end=Math.min(start+PER_SCREEN,TOTAL_ITEMS);
+    html+='<section class="screen" id="screen-'+(s+1)+'">';
+    for(var i=start;i<end;i++){
+      var v=answers[i];
+      html+='<div class="q-card"><div class="q-num">'+t.item(i+1,TOTAL_ITEMS)+'</div><p class="q-text">'+items[i]+'</p><div class="scale" role="radiogroup">';
+      for(var val=0;val<=3;val++){
+        var pLabels=[t.pill0,t.pill1,t.pill2,t.pill3];
+        html+='<label class="opt"><input type="radio" name="item-'+i+'" value="'+val+'"'+(v===val?' checked':'')+' onchange="setAnswer('+i+','+val+')"><span class="pill"><span class="n">'+val+'</span><span class="t">'+pLabels[val]+'</span></span></label>';
+      }
+      html+='</div></div>';
+    }
+    html+='<div class="nav-row"><button class="ghost" onclick="goTo('+(s)+')">'+(s===0?'':t.btnPrev)+'</button><button id="next-'+(s+1)+'" onclick="tryAdvance('+(s+1)+')">'+(s+1===totalScreens?t.btnFinish:t.btnNext)+'</button></div>';
+    html+='<p class="hint" id="hint-'+(s+1)+'"></p></section>';
+  }
+  wrap.innerHTML=html;
+}
+
+function goTo(target){
+  document.querySelectorAll('.screen').forEach(function(el){el.classList.remove('active');});
+  var id=(target==='results')?'screen-results':'screen-'+target;
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  updateProgress(target);
+}
+
+function tryAdvance(sNum){
+  var start=(sNum-1)*PER_SCREEN;var end=Math.min(sNum*PER_SCREEN,TOTAL_ITEMS);
+  for(var i=start;i<end;i++){
+    if(answers[i]===undefined){
+      var hEl=document.getElementById('hint-'+sNum);
+      if(hEl){hEl.textContent=T[lang].hintComplete;hEl.classList.add('warn');}
+      return;
+    }
+  }
+  if(sNum===totalScreens){showResults();goTo('results');}
+  else goTo(sNum+1);
+}
+
+function setAnswer(i,v){answers[i]=v;updateProgress();}
+
+function updateProgress(target){
+  var answered=Object.keys(answers).length;
+  var pct=Math.round((answered/TOTAL_ITEMS)*100);
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressCount').textContent=T[lang].progCount(answered,TOTAL_ITEMS);
+  var label=T[lang].progInfo;
+  if(typeof target==='number'&&target>0)label=T[lang].progSection(target,totalScreens);
+  else if(target==='results')label=T[lang].progResult;
+  document.getElementById('progressText').textContent=label;
+}
+
+function getSexe(){
+  var r=document.querySelector('input[name=sexe]:checked');
+  if(!r)return '—';
+  return r.value==='M'?T[lang].lblMale:T[lang].lblFemale;
+}
+
+function showResults(){
+  var t=T[lang];var items=ITEMS[lang];
+  var name=document.getElementById('childName').value||'—';
+  var compiler=document.getElementById('compiler').value||'—';
+  var cdate=getWheelDisplay('wheel-compileDate');
+  var subj=name;if(compiler&&compiler!=='—')subj+='  ·  '+t.rBy+': '+compiler;
+  if(cdate)subj+='  ·  '+cdate;
+  document.getElementById('resultSubject').textContent=subj;
+  var total=0;items.forEach(function(_,i){total+=(answers[i]||0);});
+  var concerning=items.filter(function(_,i){return(answers[i]||0)>=2;}).length;
+  document.getElementById('totalScore').textContent=total;
+  document.getElementById('scoreNote').textContent=t.scoreNote(concerning);
+  var body='';
+  items.forEach(function(text,i){
+    var v=answers[i]||0;var lvl=v===3?'lvl-3':v===2?'lvl-2':'';
+    body+='<tr class="'+lvl+'"><td>'+( i+1)+'</td><td>'+text+'</td><td class="score">'+v+'</td></tr>';
+  });
+  document.getElementById('resultsBody').innerHTML=body;
+}
+
+function isEmail(a){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(a);}
+
+function sendToPractitioner(){
+  var t=T[lang];
+  var email=document.getElementById('practitionerEmail').value.trim();
+  var hint=document.getElementById('sendHint');
+  hint.classList.remove('warn');
+  if(!email){hint.textContent=t.hintNoEmail;hint.classList.add('warn');return;}
+  if(!isEmail(email)){hint.textContent=t.hintBadEmail;hint.classList.add('warn');return;}
+  var name=document.getElementById('childName').value||'—';
+  var grade=document.getElementById('grade').value||'—';
+  var age=document.getElementById('age').value||'—';
+  var compiler=document.getElementById('compiler').value||'—';
+  var dob=getWheelDisplay('wheel-birthdate');
+  var cdate=getWheelDisplay('wheel-compileDate');
+  var items=ITEMS[lang];
+  var total=0;items.forEach(function(_,i){total+=(answers[i]||0);});
+  var pct=Math.round((total/240)*100);
+  var high=[];items.forEach(function(tx,i){if((answers[i]||0)>=2)high.push({i:i,t:tx,v:answers[i]});});
+  var mild=items.filter(function(_,i){return(answers[i]||0)===1;}).length;
+  var sep70='='.repeat(70);var sep18='-'.repeat(18);var sep72='-'.repeat(72);
+  var b='';
+  b+=t.eyebrow+'\n'+sep70+'\n\n';
+  b+=t.rChild+' : '+name+'\n';
+  b+=t.rSex+' : '+getSexe()+'\n';
+  b+=t.rDob+' : '+dob+'\n';
+  b+=t.rAge+' : '+age+'\n';
+  b+=t.rGrade+' : '+grade+'\n';
+  b+=t.rBy+' : '+compiler+'\n';
+  b+=t.rDate+' : '+cdate+'\n\n';
+  b+=sep18+'\n';
+  b+=t.rTotal(total,pct)+'\n';
+  b+=t.rHigh(high.length)+'\n';
+  b+=t.rMild(mild)+'\n\n';
+  b+=t.rInterpTitle+'\n'+sep72+'\n';
+  b+=t.rInterpText+'\n\n';
+  b+=t.rDetailTitle(high.length)+'\n'+sep72+'\n';
+  if(high.length===0){b+=t.rNone+'\n';}
+  else{high.forEach(function(o){b+='  '+(o.i+1)+'. '+o.t+'  →  '+o.v+'\n';});}
+  b+='\n'+sep18+'\n'+t.rLimits+'\n';
+  var subj=t.eyebrow+' — '+name+' — '+total+'/240';
+  window.location.href='mailto:'+encodeURIComponent(email)+'?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(b);
+  hint.textContent=t.hintSending;
+}
+
+function resetAll(){
+  for(var k in answers)delete answers[k];
+  document.querySelectorAll('input[type=radio]').forEach(function(r){r.checked=false;});
+  document.querySelectorAll('.hint').forEach(function(h){h.textContent='';h.classList.remove('warn');});
+  document.getElementById('childName').value='';document.getElementById('grade').value='';
+  document.getElementById('age').value='';document.getElementById('compiler').value='';
+  document.getElementById('practitionerEmail').value='';
+  if(wheelHandles['wheel-birthdate'])wheelHandles['wheel-birthdate'].reset({day:1,month:1,year:2018});
+  if(wheelHandles['wheel-compileDate'])wheelHandles['wheel-compileDate'].reset({day:24,month:11,year:2026});
+  buildScreens();updateProgress();goTo(0);
+}
+
+renderStaticText();
+buildScreens();
+updateProgress();
+initWheelDate('wheel-birthdate','readout-birthdate',{day:1,month:1,year:2018,years:(function(){var a=[];for(var i=2026;i>=1997;i--)a.push(i);return a;})()});
+initWheelDate('wheel-compileDate','readout-compileDate',{day:24,month:11,year:2026,years:[2024,2025,2026,2027]});
+</script>
+</body>
+</html>
